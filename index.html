@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ask LLaMA About a File</title>
+</head>
+<body>
+  <h1>Upload a File and Ask a Question</h1>
+
+  <input type="file" id="fileInput"><br><br>
+  <textarea id="prompt" rows="4" cols="50" placeholder="Type your question here..."></textarea><br>
+  <button onclick="askQuestion()">Ask</button>
+
+  <p><strong>Response:</strong></p>
+  <div id="response" style="white-space: pre-wrap;"></div>
+
+  <script>
+    async function askQuestion() {
+      const fileInput = document.getElementById('fileInput');
+      const prompt = document.getElementById('prompt').value;
+  
+      if (!fileInput.files[0] || !prompt) {
+        alert("Please choose a file and enter a question.");
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      formData.append('prompt', prompt);
+  
+      try {
+        const response = await fetch('http://localhost:5000/ask', {
+          method: 'POST',
+          body: formData
+        });
+  
+        const data = await response.json();
+        console.log("Response from Flask:", data);  // ← Debug line
+        document.getElementById('response').innerText = data.response || 'No response.';
+      } catch (err) {
+        console.error("Fetch error:", err);
+        document.getElementById('response').innerText = 'Error connecting to backend.';
+      }
+    }
+  </script>
+  
+</body>
+</html>
