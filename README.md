@@ -34,3 +34,10 @@ A local AI-powered document Q&A interface that allows you to:
 - All inference is done offline — nothing leaves the machine
 
 - You could easily swap out LLaMA for another Ollama-supported model (e.g. Mistral, Code LLaMA, etc.)
+
+
+---
+
+- Run ollama 
+- Run app.py
+- Open index.html file
